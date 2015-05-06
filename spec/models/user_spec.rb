@@ -82,6 +82,8 @@ RSpec.describe User, :type => :model do
   end
 
   describe '#is_password?' do
+    it 'checks if the password is correct using BCrypt' do
+    end
   end
 
   describe '::find_by_credentials' do
