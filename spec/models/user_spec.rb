@@ -92,5 +92,11 @@ RSpec.describe User, :type => :model do
       found_user = User.find_by_credentials(user.email, user.password)
       expect(found_user).to eq user
     end
+
+    it 'does not return the user if the password is wrong' do
+    end
+
+    it 'returns nil if the user does not exist' do
+    end
   end
 end
