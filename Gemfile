@@ -9,15 +9,19 @@ gem 'bcrypt'
 gem 'unicorn'
 
 group :development, :test do
+  gem 'spring'
+end
+
+group :development do
   gem 'byebug'
   gem 'web-console'
-  gem 'spring'
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
 end
 
 group :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
   gem 'capybara'
   gem 'launchy'
   gem 'faker'
+  gem 'database_cleaner'
 end
