@@ -94,6 +94,17 @@ RSpec.describe User, :type => :model do
         user.email = 'charlie@peanuts.com'
         expect(user).not_to be_valid
       end
+
+      it 'requires the email to be in a valid format' do
+        user.email = 'charlie@peanuts.com'
+        expect(user).to be_valid
+
+        user.email = 'charlie#peanuts.com'
+        expect(user).not_to be_valid
+
+        user.email = 'charlie.peanuts.com'
+        expect(user).not_to be_valid
+      end
     end
 
     describe 'session_token' do

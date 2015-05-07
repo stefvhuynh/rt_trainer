@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   validates :password_digest, presence: true
   validates :email, presence: true, uniqueness: true
   validates :session_token, presence: true, uniqueness: true
+  validate :email_is_in_a_valid_format
 
   # If a password is passed in, it needs to be at least six characters long. The
   # only time we need a password to be passed in is when we create a new user.
@@ -40,5 +41,11 @@ class User < ActiveRecord::Base
 
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64
+  end
+
+  def email_is_in_a_valid_format
+    unless self.email =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+      errors.add(:email, 'is not in a valid format')
+    end
   end
 end
