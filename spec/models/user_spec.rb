@@ -27,14 +27,14 @@ RSpec.describe User, :type => :model do
         expect(secure_random_class_double).to receive(:urlsafe_base64)
         expect(
           FactoryGirl.build(:user).session_token
-        ).to eq secure_random_string
+        ).to eq(secure_random_string)
       end
 
       it 'sets the password_digest using BCrypt' do
         expect(password_class_double).to receive(:create).with('somepassword')
         expect(
           FactoryGirl.build(:user, password: 'somepassword').password_digest
-        ).to eq bcrypt_hashed_password
+        ).to eq(bcrypt_hashed_password)
       end
     end
 
@@ -124,19 +124,32 @@ RSpec.describe User, :type => :model do
     end
   end
 
+  describe '#change_session_token!' do
+    it 'assigns a new session_token and saves it in the database' do
+      allow(
+        secure_random_class_double
+      ).to receive(:urlsafe_base64).and_return('anewsessiontoken')
+
+      expect(secure_random_class_double).to receive(:urlsafe_base64)
+      expect(user.change_session_token!).to eq('anewsessiontoken')
+      expect(User.find(user.id).session_token).to eq('anewsessiontoken')
+    end
+  end
+
   describe '::find_by_credentials' do
     before { user.save! }
 
     it 'returns the user from the database' do
       found_user = User.find_by_credentials(user.email, user.password)
-      expect(found_user).to eq user
+      expect(found_user).to eq(user)
     end
 
     it 'does not return the user if the password is wrong' do
-      expect(
+      allow(
         password_instance_double
       ).to receive(:is_password?).and_return(false)
 
+      expect(password_instance_double).to receive(:is_password?)
       found_user = User.find_by_credentials(user.email, user.password + 'wrong')
       expect(found_user).to be_nil
     end
