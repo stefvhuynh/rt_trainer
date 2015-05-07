@@ -4,28 +4,34 @@ RSpec.describe User, :type => :model do
   subject(:user) { FactoryGirl.build(:user) }
 
   let(:secure_random_string) { 'somereallylongstring' }
-  let!(:secure_random_double) do
+  let!(:secure_random_class_double) do
     class_double('SecureRandom', urlsafe_base64: secure_random_string)
       .as_stubbed_const
   end
 
   let(:bcrypt_hashed_password) { 'ahashedpassword' }
-  let!(:bcrypt_password_double) do
-    class_double('BCrypt::Password', create: bcrypt_hashed_password)
-      .as_stubbed_const(transfer_nested_constants: true)
+  let(:password_instance_double) do
+    instance_double('BCrypt::Password', is_password?: true)
+  end
+  let!(:password_class_double) do
+    class_double(
+      'BCrypt::Password',
+      create: bcrypt_hashed_password,
+      new: password_instance_double
+    ).as_stubbed_const(transfer_nested_constants: true)
   end
 
   describe 'model initialization' do
     context 'creating a new user' do
       it 'populates the session_token using SecureRandom' do
-        expect(secure_random_double).to receive(:urlsafe_base64)
+        expect(secure_random_class_double).to receive(:urlsafe_base64)
         expect(
           FactoryGirl.build(:user).session_token
         ).to eq secure_random_string
       end
 
       it 'sets the password_digest using BCrypt' do
-        expect(bcrypt_password_double).to receive(:create).with('somepassword')
+        expect(password_class_double).to receive(:create).with('somepassword')
         expect(
           FactoryGirl.build(:user, password: 'somepassword').password_digest
         ).to eq bcrypt_hashed_password
@@ -35,7 +41,7 @@ RSpec.describe User, :type => :model do
     context 'fetching a user from the database' do
       it 'does not call SecureRandom to replace an existing session_token' do
         user.save!
-        expect(secure_random_double).not_to receive(:urlsafe_base64)
+        expect(secure_random_class_double).not_to receive(:urlsafe_base64)
         User.find(user.id)
       end
     end
@@ -106,6 +112,15 @@ RSpec.describe User, :type => :model do
 
   describe '#is_password?' do
     it 'checks if the password is correct using BCrypt' do
+      expect(
+        password_class_double
+      ).to receive(:new).with(user.password_digest)
+
+      expect(
+        password_instance_double
+      ).to receive(:is_password?).with('somepassword')
+
+      user.is_password?('somepassword')
     end
   end
 
