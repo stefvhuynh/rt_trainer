@@ -3,12 +3,32 @@ require 'rails_helper'
 RSpec.describe User, :type => :model do
   subject(:user) { FactoryGirl.build(:user) }
 
+  let(:secure_random_string) { 'somereallylongstring' }
+  let!(:secure_random_double) do
+    class_double('SecureRandom', urlsafe_base64: secure_random_string)
+      .as_stubbed_const
+  end
+
+  let(:bcrypt_hashed_password) { 'ahashedpassword' }
+  let!(:bcrypt_password_double) do
+    class_double('BCrypt::Password', create: bcrypt_hashed_password)
+      .as_stubbed_const(transfer_nested_constants: true)
+  end
+
   describe 'model initialization' do
     context 'creating a new user' do
       it 'populates the session_token using SecureRandom' do
+        expect(secure_random_double).to receive(:urlsafe_base64)
+        expect(
+          FactoryGirl.build(:user).session_token
+        ).to eq secure_random_string
       end
 
-      it 'uses BCrypt to set the password_digest' do
+      it 'sets the password_digest using BCrypt' do
+        expect(bcrypt_password_double).to receive(:create).with('somepassword')
+        expect(
+          FactoryGirl.build(:user, password: 'somepassword').password_digest
+        ).to eq bcrypt_hashed_password
       end
     end
 
@@ -74,8 +94,8 @@ RSpec.describe User, :type => :model do
       end
 
       it 'requires the session_token to be unique' do
-        FactoryGirl.create(:user, session_token: '123abc')
-        user.session_token = '123abc'
+        FactoryGirl.create(:user, session_token: 'somesessiontoken')
+        user.session_token = 'somesessiontoken'
         expect(user).not_to be_valid
       end
     end

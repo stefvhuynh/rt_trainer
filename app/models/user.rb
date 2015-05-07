@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   # We use a custom password setter to create the password_digest.
   def password=(password)
     @password = password
-    self.password_digest = 'foo'
+    self.password_digest = BCrypt::Password.create(password)
   end
 
   def is_password?(password)
@@ -31,6 +31,6 @@ class User < ActiveRecord::Base
   private
 
   def ensure_session_token
-    self.session_token = 'bar'
+    self.session_token = SecureRandom.urlsafe_base64
   end
 end
