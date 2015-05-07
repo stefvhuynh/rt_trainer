@@ -33,7 +33,10 @@ RSpec.describe User, :type => :model do
     end
 
     context 'fetching a user from the database' do
-      it 'does not replace the existing session_token' do
+      it 'does not call SecureRandom to replace an existing session_token' do
+        user.save!
+        expect(secure_random_double).not_to receive(:urlsafe_base64)
+        User.find(user.id)
       end
     end
   end
