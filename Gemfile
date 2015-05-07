@@ -9,7 +9,7 @@ gem 'bcrypt'
 gem 'unicorn'
 
 group :development, :test do
-  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 group :development do
