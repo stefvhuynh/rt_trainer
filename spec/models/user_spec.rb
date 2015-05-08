@@ -5,17 +5,17 @@ RSpec.describe User, type: :model do
 
   let(:secure_random_string) { 'somereallylongstring' }
   let!(:secure_random_class_double) do
-    class_double('SecureRandom', urlsafe_base64: secure_random_string)
+    class_double(SecureRandom, urlsafe_base64: secure_random_string)
       .as_stubbed_const
   end
 
   let(:bcrypt_hashed_password) { 'ahashedpassword' }
   let(:password_instance_double) do
-    instance_double('BCrypt::Password', is_password?: true)
+    instance_double(BCrypt::Password, is_password?: true)
   end
   let!(:password_class_double) do
     class_double(
-      'BCrypt::Password',
+      BCrypt::Password,
       create: bcrypt_hashed_password,
       new: password_instance_double
     ).as_stubbed_const(transfer_nested_constants: true)
