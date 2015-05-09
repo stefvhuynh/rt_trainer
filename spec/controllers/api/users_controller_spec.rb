@@ -12,7 +12,7 @@ RSpec.describe Api::UsersController, type: :controller do
         post(:create, user: valid_attributes, format: :json)
       end
 
-      it 'responds with a 200 OK status' do
+      it 'responds with a 200 OK' do
         post_with_valid_attributes
         expect(response.status).to eq(200)
       end
