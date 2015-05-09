@@ -6,24 +6,20 @@ RSpec.describe Api::UsersController, type: :controller do
       let(:valid_attributes) { FactoryGirl.attributes_for(:user) }
       let(:user_instance_double) { instance_double(User, save: true) }
 
-      before { allow(User).to receive(:new).and_return(user_instance_double) }
-
-      def post_with_valid_attributes
+      before do
+        allow(User).to receive(:new).and_return(user_instance_double)
         post(:create, user: valid_attributes, format: :json)
       end
 
       it 'responds with a 200 OK' do
-        post_with_valid_attributes
         expect(response.status).to eq(200)
       end
 
       it 'renders the show template' do
-        post_with_valid_attributes
         expect(response).to render_template(:show)
       end
 
       it 'creates a new user' do
-        post_with_valid_attributes
         expect(assigns(:user)).to eq(user_instance_double)
       end
     end
@@ -35,19 +31,16 @@ RSpec.describe Api::UsersController, type: :controller do
         instance_double(User, save: false, errors: errors_double)
       end
 
-      before { allow(User).to receive(:new).and_return(user_instance_double) }
-
-      def post_with_invalid_attributes
+      before do
+        allow(User).to receive(:new).and_return(user_instance_double)
         post(:create, user: invalid_attributes, format: :json)
       end
 
       it 'responds with a 422 Unprocessable Entity' do
-        post_with_invalid_attributes
         expect(response.status).to eq(422)
       end
 
       it 'renders an error' do
-        post_with_invalid_attributes
         expect(
           JSON.parse(response.body)
         ).to include('errors' => ['error1', 'error2'])
