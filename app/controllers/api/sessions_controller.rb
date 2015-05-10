@@ -1,4 +1,6 @@
 class Api::SessionsController < ApplicationController
+  before_action :require_logged_in, only: :destroy
+
   def create
     @user = User.find_by_credentials(
       params[:credentials][:username],
@@ -8,10 +10,12 @@ class Api::SessionsController < ApplicationController
     if @user
       render :show
     else
-      render(
-        json: { errors: ['Incorrect username/password combination'] },
+      render json: { errors: ['Incorrect username/password combination'] },
         status: :unprocessable_entity
-      )
     end
+  end
+
+  def destroy
+    render nothing: true
   end
 end

@@ -1,17 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Api::SessionsController, type: :controller do
+  let(:user_instance_double) { instance_double(User) }
+
   describe 'POST #create' do
     context 'with valid user credentials' do
       let(:valid_credentials) do
         { username: 'charliebrown', password: 'somepassword' }
       end
-      let(:user_instance_double) { instance_double(User) }
 
       before do
         allow(User).to receive(:find_by_credentials)
           .with(*valid_credentials.values)
           .and_return(user_instance_double)
+
         post(:create, credentials: valid_credentials, format: :json)
       end
 
@@ -37,6 +39,7 @@ RSpec.describe Api::SessionsController, type: :controller do
         allow(User).to receive(:find_by_credentials)
           .with(*invalid_credentials.values)
           .and_return(nil)
+
         post(:create, credentials: invalid_credentials, format: :json)
       end
 
@@ -48,6 +51,34 @@ RSpec.describe Api::SessionsController, type: :controller do
         expect(
           JSON.parse(response.body)
         ).to include('errors' => ['Incorrect username/password combination'])
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'when there is not a valid session_token present' do
+      it 'responds with a 401 Unauthorized' do
+        allow(User).to receive(:find_by)
+          .with(session_token: nil)
+          .and_return(nil)
+
+        delete(:destroy, format: :json)
+        expect(response.status).to eq(401)
+      end
+    end
+
+    context 'when there is a valid session_token present' do
+      before do
+        allow(User).to receive(:find_by)
+          .with(session_token: 'somesessiontoken')
+          .and_return(user_instance_double)
+
+        request.headers['X-Session-Token'] = 'somesessiontoken'
+        delete(:destroy, format: :json)
+      end
+
+      it 'responds with a 200 OK' do
+        expect(response.status).to eq(200)
       end
     end
   end
