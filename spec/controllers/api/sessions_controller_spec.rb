@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::SessionsController, type: :controller do
-  let(:user_instance_double) { instance_double(User) }
+  let(:user_instance_double) do
+    instance_double(User, change_session_token!: 'someothersessiontoken')
+  end
 
   describe 'POST #create' do
     context 'with valid user credentials' do
@@ -74,11 +76,21 @@ RSpec.describe Api::SessionsController, type: :controller do
           .and_return(user_instance_double)
 
         request.headers['X-Session-Token'] = 'somesessiontoken'
-        delete(:destroy, format: :json)
       end
 
       it 'responds with a 200 OK' do
+        delete(:destroy, format: :json)
         expect(response.status).to eq(200)
+      end
+
+      it 'renders nothing' do
+        delete(:destroy, format: :json)
+        expect(response.body).to be_blank
+      end
+
+      it 'changes the session_token for the logged in user' do
+        expect(user_instance_double).to receive(:change_session_token!)
+        delete(:destroy, format: :json)
       end
     end
   end

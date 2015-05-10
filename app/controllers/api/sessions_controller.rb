@@ -16,6 +16,7 @@ class Api::SessionsController < ApplicationController
   end
 
   def destroy
+    current_user.change_session_token!
     render nothing: true
   end
 end
