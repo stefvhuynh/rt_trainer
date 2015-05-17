@@ -21,6 +21,12 @@ RSpec.describe User, type: :model do
     ).as_stubbed_const(transfer_nested_constants: true)
   end
 
+  describe 'associations' do
+    it 'has many scores' do
+      expect(User.reflect_on_association(:scores).macro).to eq(:has_many)
+    end
+  end
+
   describe 'model initialization' do
     context 'creating a new user' do
       it 'populates the session_token using SecureRandom' do

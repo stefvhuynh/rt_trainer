@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :scores
+
   def self.find_by_credentials(email, password)
     user = self.find_by(email: email)
     (user && user.is_password?(password)) ? user : nil
