@@ -13,6 +13,7 @@ class Api::ScoresController < ApplicationController
   private
 
   def score_params
-    params.require(:score).permit(:level, :session, :reaction_time, :accuracy)
+    params.require(:score)
+      .permit(:level, :session, :reaction_time, :accuracy, :user_id)
   end
 end

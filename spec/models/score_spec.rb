@@ -66,6 +66,13 @@ RSpec.describe Score, type: :model do
           expect(score).to be_valid
         end
       end
+
+      describe 'user_id' do
+        it 'requires a user_id' do
+          score.user_id = nil
+          expect(score).not_to be_valid
+        end
+      end
     end
   end
 end

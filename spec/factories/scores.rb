@@ -12,6 +12,6 @@ FactoryGirl.define do
     session nil
     reaction_time nil
     accuracy nil
-    user nil
+    user_id nil
   end
 end
