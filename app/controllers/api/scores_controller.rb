@@ -1,6 +1,8 @@
 class Api::ScoresController < ApplicationController
+  before_action :require_logged_in
+
   def create
-    @score = Score.new(score_params)
+    @score = current_user.scores.build(score_params)
 
     if @score.save
       render :show

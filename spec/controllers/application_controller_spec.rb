@@ -6,7 +6,7 @@ RSpec.describe ApplicationController, type: :controller do
   describe '#current_user' do
     context 'with a valid X-Session-Token header' do
       before do
-        subject.request.headers['X-Session-Token'] = 'somesessiontoken'
+        request.headers['X-Session-Token'] = 'somesessiontoken'
         allow(User).to receive(:find_by)
           .with(session_token: 'somesessiontoken')
           .and_return(user_instance_double)

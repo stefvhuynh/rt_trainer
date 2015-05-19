@@ -56,25 +56,16 @@ RSpec.describe Api::SessionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    context 'when there is not a valid session_token present' do
+    context 'when logged out' do
       it 'responds with a 401 Unauthorized' do
-        allow(User).to receive(:find_by)
-          .with(session_token: nil)
-          .and_return(nil)
-
+        mock_log_out
         delete(:destroy, format: :json)
         expect(response.status).to eq(401)
       end
     end
 
-    context 'when there is a valid session_token present' do
-      before do
-        allow(User).to receive(:find_by)
-          .with(session_token: 'somesessiontoken')
-          .and_return(user_instance_double)
-
-        request.headers['X-Session-Token'] = 'somesessiontoken'
-      end
+    context 'when logged in' do
+      before { mock_log_in(user_instance_double) }
 
       it 'responds with a 200 OK' do
         delete(:destroy, format: :json)
