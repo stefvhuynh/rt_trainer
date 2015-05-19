@@ -7,19 +7,23 @@ RSpec.describe Api::UsersController, type: :controller do
       let(:user_instance_double) { instance_double(User, save: true) }
 
       before do
-        allow(User).to receive(:new).and_return(user_instance_double)
-        post(:create, user: valid_attributes, format: :json)
+        allow(User).to receive(:new).with(valid_attributes)
+          .and_return(user_instance_double)
       end
 
       it 'responds with a 200 OK' do
+        post(:create, user: valid_attributes, format: :json)
         expect(response.status).to eq(200)
       end
 
       it 'renders the show template' do
+        post(:create, user: valid_attributes, format: :json)
         expect(response).to render_template(:show)
       end
 
       it 'creates a new user' do
+        expect(user_instance_double).to receive(:save)
+        post(:create, user: valid_attributes, format: :json)
         expect(assigns(:user)).to eq(user_instance_double)
       end
     end
@@ -32,7 +36,8 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       before do
-        allow(User).to receive(:new).and_return(user_instance_double)
+        allow(User).to receive(:new).with(invalid_attributes)
+          .and_return(user_instance_double)
         post(:create, user: invalid_attributes, format: :json)
       end
 

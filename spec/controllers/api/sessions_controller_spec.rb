@@ -15,7 +15,6 @@ RSpec.describe Api::SessionsController, type: :controller do
         allow(User).to receive(:find_by_credentials)
           .with(*valid_credentials.values)
           .and_return(user_instance_double)
-
         post(:create, credentials: valid_credentials, format: :json)
       end
 
@@ -41,7 +40,6 @@ RSpec.describe Api::SessionsController, type: :controller do
         allow(User).to receive(:find_by_credentials)
           .with(*invalid_credentials.values)
           .and_return(nil)
-
         post(:create, credentials: invalid_credentials, format: :json)
       end
 
