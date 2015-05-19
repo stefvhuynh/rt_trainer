@@ -5,7 +5,7 @@
 module AuthenticationHelpers
   # `@current_user` becomes nil.
   def mock_log_out
-    request.headers['X-Session-Token'] = nil
+    set_session_token_header(nil)
     allow(User).to receive(:find_by)
       .with(session_token: nil)
       .and_return(nil)
@@ -13,10 +13,24 @@ module AuthenticationHelpers
 
   # The argument `user` becomes the value of `@current_user`.
   def mock_log_in(user)
-    request.headers['X-Session-Token'] = 'somesessiontoken'
+    set_session_token_header('somesessiontoken')
     allow(User).to receive(:find_by)
       .with(session_token: 'somesessiontoken')
       .and_return(user)
+  end
+
+  def log_out
+    set_session_token_header(nil)
+  end
+
+  def log_in(user)
+    set_session_token_header(user.session_token)
+  end
+
+  private
+
+  def set_session_token_header(token_or_nil)
+    request.headers['X-Session-Token'] = token_or_nil
   end
 end
 
