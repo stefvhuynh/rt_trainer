@@ -3,6 +3,8 @@ class Api::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      base_progress = { level: 0, session: 1, user_id: @user.id }
+      @progress = Progress.create(base_progress)
       render :show
     else
       render json: { errors: @user.errors.full_messages },
