@@ -1,0 +1,30 @@
+{
+  "name": "rtTrainer",
+  "version": "0.0.1",
+  "description": "An app for training reaction time",
+  "author": "Stefan Huynh <huynh.stefan@gmail.com>",
+  "main": "app/assets/javascripts/main.js",
+  "devDependencies": {
+    "webpack": "*",
+    "webpack-dev-server": "*",
+    "babel-core": "*",
+    "babel-loader": "*",
+    "jest-cli": "*",
+    "babel-jest": "*"
+  },
+  "dependencies": {
+    "fluxxor": "*",
+    "react": "*",
+    "react-tools": "*",
+    "react-router": "*"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "webpack",
+    "watch": "webpack --progress --colors --watch"
+  },
+  "jest": {
+    "testFileExtensions": ["js"],
+    "moduleFileExtensions": ["js"]
+  }
+}
