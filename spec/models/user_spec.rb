@@ -25,6 +25,10 @@ RSpec.describe User, type: :model do
     it 'has many scores' do
       expect(User.reflect_on_association(:scores).macro).to eq(:has_many)
     end
+
+    it 'has one progress' do
+      expect(User.reflect_on_association(:progress).macro).to eq(:has_one)
+    end
   end
 
   describe 'model initialization' do

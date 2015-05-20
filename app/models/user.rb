@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_one :progress
   has_many :scores
 
   def self.find_by_credentials(email, password)

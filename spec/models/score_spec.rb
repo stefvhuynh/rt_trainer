@@ -17,6 +17,8 @@ RSpec.describe Score, type: :model do
       end
 
       it 'requires the level to be between 1 and 4' do
+        score.level = 0
+        expect(score).not_to be_valid
         score.level = 5
         expect(score).not_to be_valid
         score.level = 3
