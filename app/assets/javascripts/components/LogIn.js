@@ -1,17 +1,18 @@
 import React from 'react';
 import ApiUtils from 'utils/ApiUtils';
 
-const LogInPage = React.createClass({
-  getInitialState() {
-    return {
+class LogIn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       username: '',
       password: ''
     };
-  },
+  }
 
   render() {
     return(
-      <div className="RtTrainer">
+      <div className="LogIn">
         <h1>Put in your username and password</h1>
         <form>
           <input type="text" placeholder="username"
@@ -24,7 +25,7 @@ const LogInPage = React.createClass({
         </form>
       </div>
     );
-  },
+  }
 
   _generateInputChangeHandler(stateKey) {
     let handleChange = event => {
@@ -33,7 +34,7 @@ const LogInPage = React.createClass({
     };
 
     return handleChange;
-  },
+  }
 
   _onFormSubmit(event) {
     event.preventDefault();
@@ -44,6 +45,6 @@ const LogInPage = React.createClass({
       error => console.log('error: ', error)
     );
   }
-});
+}
 
-export default LogInPage;
+export default LogIn;

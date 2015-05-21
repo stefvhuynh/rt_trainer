@@ -1,12 +1,17 @@
 import React from 'react';
-import LogInPage from 'components/LogInPage';
+import LogIn from 'components/LogIn';
+import Dashboard from 'components/Dashboard';
 
-const RtTrainer = React.createClass({
+class RtTrainer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return(
-      <LogInPage/>
+      <LogIn/>
     );
   }
-});
+}
 
 export default RtTrainer;
