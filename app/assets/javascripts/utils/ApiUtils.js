@@ -19,6 +19,26 @@ const ApiUtils = {
         }
       }
     });
+  },
+
+  createUser(email, username, password, successCallback, errorCallback) {
+    const user = { email: email, username: username, password: password };
+
+    $.ajax({
+      url: '/api/users/',
+      method: 'POST',
+      data: { user: user },
+      success: response => {
+        if (successCallback) {
+          successCallback(response.responseJSON);
+        }
+      },
+      error: error => {
+        if (errorCallback) {
+          errorCallback(error.responseJSON);
+        }
+      }
+    });
   }
 };
 

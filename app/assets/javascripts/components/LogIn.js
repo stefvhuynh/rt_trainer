@@ -5,30 +5,47 @@ class LogIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: ''
+      existingUsername: '',
+      existingPassword: '',
+      newEmail: '',
+      newUsername: '',
+      newPassword: ''
     };
   }
 
   render() {
     return(
       <div className="LogIn">
-        <h1>Put in your username and password</h1>
+        <h1>Log in</h1>
         <form>
           <input type="text" placeholder="username"
-            value={ this.state.username }
-            onChange={ this._generateInputChangeHandler('username') }/>
+            value={ this.state.existingUsername }
+            onChange={ this._generateInputChangeHandler('existingUsername') }/>
           <input type="password" placeholder="password"
-            value={ this.state.password }
-            onChange={ this._generateInputChangeHandler('password') }/>
-          <button onClick={ this._onFormSubmit }>Submit</button>
+            value={ this.state.existingPassword }
+            onChange={ this._generateInputChangeHandler('existingPassword') }/>
+          <button onClick={ this._onLogInFormSubmit.bind(this) }>Submit</button>
+        </form>
+
+        <h1>Sign up</h1>
+        <form>
+          <input type="text" placeholder="email"
+            value={ this.state.newEmail }
+            onChange={ this._generateInputChangeHandler('newEmail') }/>
+          <input type="text" placeholder="username"
+            value={ this.state.newUsername }
+            onChange={ this._generateInputChangeHandler('newUsername') }/>
+          <input type="password" placeholder="password"
+            value={ this.state.newPassword }
+            onChange={ this._generateInputChangeHandler('newPassword') }/>
+          <button onClick={ this._onSignUpFormSubmit.bind(this) }>Submit</button>
         </form>
       </div>
     );
   }
 
   _generateInputChangeHandler(stateKey) {
-    let handleChange = event => {
+    const handleChange = event => {
       event.preventDefault();
       this.setState({ [stateKey]: event.target.value });
     };
@@ -36,11 +53,22 @@ class LogIn extends React.Component {
     return handleChange;
   }
 
-  _onFormSubmit(event) {
+  _onLogInFormSubmit(event) {
     event.preventDefault();
     ApiUtils.getSessionToken(
-      this.state.username,
-      this.state.password,
+      this.state.existingUsername,
+      this.state.existingPassword,
+      response => console.log(response),
+      error => console.log('error: ', error)
+    );
+  }
+
+  _onSignUpFormSubmit(event) {
+    event.preventDefault();
+    ApiUtils.createUser(
+      this.state.newEmail,
+      this.state.newUsername,
+      this.state.newPassword,
       response => console.log(response),
       error => console.log('error: ', error)
     );
