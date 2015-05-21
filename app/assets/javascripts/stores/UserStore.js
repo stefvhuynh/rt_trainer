@@ -3,9 +3,9 @@ import UserConstants from 'constants/UserConstants';
 
 const UserStore = Fluxxor.createStore({
   initialize() {
-    this.username = '';
-    this.level = 1;
-    this.session = 1;
+    this.username;
+    this.level;
+    this.session;
 
     this.bindActions(
       UserConstants.LOAD_USER, this.onLoadUser
