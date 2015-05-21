@@ -1,8 +1,7 @@
-var React = require('react');
+import React from 'react';
+import Router from 'react-router';
+import routes from 'routes';
 
-
-
-React.render(
-  <h1>Hello world!</h1>,
-  document.getElementById('content')
-);
+Router.run(routes, Handler => {
+  React.render(<Handler/>, document.getElementById('content'));
+});

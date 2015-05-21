@@ -16,7 +16,10 @@
     "fluxxor": "*",
     "react": "*",
     "react-tools": "*",
-    "react-router": "*"
+    "react-router": "*",
+    "keymirror": "*",
+    "immutable": "*",
+    "jquery": "*"
   },
   "scripts": {
     "test": "jest",

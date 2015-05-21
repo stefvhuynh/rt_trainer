@@ -161,7 +161,7 @@ RSpec.describe User, type: :model do
     before { user.save! }
 
     it 'returns the user from the database' do
-      found_user = User.find_by_credentials(user.email, user.password)
+      found_user = User.find_by_credentials(user.username, user.password)
       expect(found_user).to eq(user)
     end
 
@@ -171,12 +171,18 @@ RSpec.describe User, type: :model do
       ).to receive(:is_password?).and_return(false)
 
       expect(password_instance_double).to receive(:is_password?)
-      found_user = User.find_by_credentials(user.email, user.password + 'wrong')
+      found_user = User.find_by_credentials(
+        user.username,
+        user.password + 'wrong'
+      )
       expect(found_user).to be_nil
     end
 
     it 'returns nil if the user does not exist' do
-      found_user = User.find_by_credentials(user.email + 'wrong', user.password)
+      found_user = User.find_by_credentials(
+        user.username + 'wrong',
+        user.password
+      )
       expect(found_user).to be_nil
     end
   end

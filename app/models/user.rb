@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   has_one :progress
   has_many :scores
 
-  def self.find_by_credentials(email, password)
-    user = self.find_by(email: email)
+  def self.find_by_credentials(username, password)
+    user = self.find_by(username: username)
     (user && user.is_password?(password)) ? user : nil
   end
 
