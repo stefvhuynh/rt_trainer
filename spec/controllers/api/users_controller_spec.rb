@@ -31,8 +31,8 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it 'creates a progress' do
-        base_progress = { level: 0, session: 1, user_id: random_user_id }
-        expect(Progress).to receive(:create).with(base_progress)
+        base_progress = { level: 1, session: 1, user_id: random_user_id }
+        expect(Progress).to receive(:create!).with(base_progress)
         post(:create, user: valid_attributes, format: :json)
       end
     end

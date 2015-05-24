@@ -1,5 +1,10 @@
 class Api::SessionsController < ApplicationController
-  before_action :require_logged_in, only: :destroy
+  before_action :require_logged_in, except: :create
+
+  def show
+    @user = current_user
+    render :show
+  end
 
   def create
     @user = User.find_by_credentials(

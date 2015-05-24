@@ -3,6 +3,12 @@
 # log out process so that we don't rely on the User model and we don't hit the
 # database every time.
 module AuthenticationHelpers
+  MOCK_SESSION_TOKEN = 'somesessiontoken'
+
+  def mock_session_token
+    MOCK_SESSION_TOKEN
+  end
+
   # `@current_user` becomes nil.
   def mock_log_out
     set_session_token_header(nil)
@@ -13,9 +19,9 @@ module AuthenticationHelpers
 
   # The argument `user` becomes the value of `@current_user`.
   def mock_log_in(user)
-    set_session_token_header('somesessiontoken')
+    set_session_token_header(mock_session_token)
     allow(User).to receive(:find_by)
-      .with(session_token: 'somesessiontoken')
+      .with(session_token: mock_session_token)
       .and_return(user)
   end
 

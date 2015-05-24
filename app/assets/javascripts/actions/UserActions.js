@@ -20,7 +20,7 @@ class UserActions extends Marty.ActionCreators {
           this.failLogIn();
         }
       },
-      error => this.failLogIn();
+      error => this.failLogIn()
     );
 
     this.dispatch(UserConstants.ATTEMPT_LOG_IN);
