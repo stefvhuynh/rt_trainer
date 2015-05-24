@@ -5,32 +5,34 @@ const ApiUtils = {
   createSession(username, password, successCallback, errorCallback) {
     const credentials = { username: username, password: password };
 
-    $.ajax({
-      url: '/api/session/',
-      method: 'POST',
-      data: { credentials: credentials },
-      success: response => {
-        if (successCallback) {
-          const successObj = this.convertObjToCamelCase(response);
-          successCallback(successObj);
-        }
-      },
-      error: error => {
-        if (errorCallback) {
-          const errorObj = this.convertToCamelCase(error.responseJSON);
-          errorCallback(error.responseJSON);
-        }
-      }
-    });
+    this.makeAjaxRequest(
+      '/api/session/',
+      'POST',
+      { credentials: credentials },
+      successCallback,
+      errorCallback
+    );
   },
 
   createUser(email, username, password, successCallback, errorCallback) {
     const user = { email: email, username: username, password: password };
 
+    this.makeAjaxRequest(
+      '/api/users/',
+      'POST',
+      { user: user },
+      successCallback,
+      errorCallback
+    );
+  },
+
+  makeAjaxRequest(url, method, data, successCallback, errorCallback) {
+    const normalizedMethod = ChangeCase.upperCase(method);
+
     $.ajax({
-      url: '/api/users/',
-      method: 'POST',
-      data: { user: user },
+      url: url,
+      method: normalizedMethod,
+      data: data,
       success: response => {
         if (successCallback) {
           const successObj = this.convertObjToCamelCase(response);
