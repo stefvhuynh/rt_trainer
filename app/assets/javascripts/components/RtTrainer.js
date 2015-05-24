@@ -1,5 +1,8 @@
 import React from 'react';
+import Marty from 'marty';
 import AuthUtils from 'utils/AuthUtils';
+import UserStore from 'stores/UserStore';
+import UserActions from 'stores/UserActions';
 import LogIn from 'components/LogIn';
 import Dashboard from 'components/Dashboard';
 
@@ -9,7 +12,16 @@ class RtTrainer extends React.Component {
   }
 
   render() {
-    let root = AuthUtils.isLoggedIn() ? <Dashboard/> : <LogIn/>;
+    let root;
+
+    if (AuthUtils.isLoggedIn()) {
+      root = <Dashboard/>;
+      if (!this.props.hasLoadedUser) {
+        UserActions.getUser();
+      }
+    } else {
+      root = <LogIn/>;
+    }
 
     return(
       <div className="RtTrainer">
@@ -19,4 +31,11 @@ class RtTrainer extends React.Component {
   }
 }
 
-export default RtTrainer;
+export default Marty.createContainer(RtTrainer, {
+  listenTo: UserStore,
+  fetch: {
+    hasLoadedUser() {
+      return UserStore.hasLoadedUser();
+    }
+  }
+});

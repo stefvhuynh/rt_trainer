@@ -1,7 +1,8 @@
 import $ from 'jquery';
+import ChangeCase from 'change-case';
 
 const ApiUtils = {
-  getSessionToken(username, password, successCallback, errorCallback) {
+  createSession(username, password, successCallback, errorCallback) {
     const credentials = { username: username, password: password };
 
     $.ajax({
@@ -10,11 +11,13 @@ const ApiUtils = {
       data: { credentials: credentials },
       success: response => {
         if (successCallback) {
-          successCallback(response.responseJSON);
+          const successObj = this.convertObjToCamelCase(response);
+          successCallback(successObj);
         }
       },
       error: error => {
         if (errorCallback) {
+          const errorObj = this.convertToCamelCase(error.responseJSON);
           errorCallback(error.responseJSON);
         }
       }
@@ -30,15 +33,38 @@ const ApiUtils = {
       data: { user: user },
       success: response => {
         if (successCallback) {
-          successCallback(response.responseJSON);
+          const successObj = this.convertObjToCamelCase(response);
+          successCallback(successObj);
         }
       },
       error: error => {
         if (errorCallback) {
-          errorCallback(error.responseJSON);
+          const errorObj = this.convertToCamelCase(error.responseJSON);
+          errorCallback(errorObj);
         }
       }
     });
+  },
+
+  convertObjToCamelCase(obj) {
+    return this.convertObjToCase(obj, 'camelCase');
+  },
+
+  convertObjToSnakeCase(obj) {
+    return this.convertObjToCase(obj, 'snakeCase');
+  },
+
+  convertObjToCase(obj, casing) {
+    let normalizedCasing = ChangeCase.camelCase(casing);
+    let newObj = {};
+
+    Object.keys(obj).forEach(key =>
+      newObj[ChangeCase[normalizedCasing](key)] =
+        (typeof obj[key] === 'object') ?
+          this.convertObjToCase(obj[key], normalizedCasing) : obj[key]
+    );
+
+    return newObj;
   }
 };
 

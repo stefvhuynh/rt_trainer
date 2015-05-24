@@ -1,1 +1,1 @@
-json.partial! 'api/user', user: @user, progress: @progress
+json.partial! 'api/user', user: @user, progress: @user.progress

@@ -1,7 +1,11 @@
-import keyMirror from 'keymirror'
+import Marty from 'marty'
 
-const UserConstants = keyMirror({
-  LOAD_USER: null
-});
+const UserConstants = Marty.createConstants([
+  'ATTEMPT_LOG_IN',
+  'LOG_IN',
+  'FAIL_LOG_IN',
+  'UPDATE_LEVEL',
+  'UPDATE_SESSION'
+]);
 
 export default UserConstants;

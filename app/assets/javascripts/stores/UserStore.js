@@ -1,31 +1,46 @@
-import Fluxxor from 'fluxxor';
+import Marty from 'marty';
 import UserConstants from 'constants/UserConstants';
 
-const UserStore = Fluxxor.createStore({
-  initialize() {
+class UserStore extends Marty.Store {
+  constructor(options) {
+    super(options);
+
+    this.id;
     this.username;
+    this.email;
     this.level;
     this.session;
 
-    this.bindActions(
-      UserConstants.LOAD_USER, this.onLoadUser
-    );
-  },
+    this.handlers = {
+      logIn: UserConstants.LOG_IN
+    };
+  }
 
-  loadUser(user) {
+  logIn(user) {
+    this.id = user.id;
     this.username = user.username;
+    this.email = user.email;
     this.level = user.level;
     this.session = user.session;
-    this.emit('change');
-  },
+    this.hasChanged();
+  }
 
-  getState() {
+  getUser() {
     return {
       username: this.username,
+      email: this.email,
       level: this.level,
       session: this.session
     };
   }
-});
 
-export default UserStore;
+  hasLoadedUser() {
+    if (this.id) {
+      return true;
+    }
+
+    return false;
+  }
+}
+
+export default Marty.register(UserStore);

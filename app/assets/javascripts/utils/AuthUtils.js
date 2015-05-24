@@ -1,14 +1,6 @@
 const AuthUtils = {
   SESSION_COOKIE_NAME: 'rt_trainer_session_token',
 
-  logIn(token) {
-    this.setSessionCookie(token);
-  },
-
-  logOut() {
-    this.deleteSessionCookie();
-  },
-
   isLoggedIn() {
     return this.readCookie(this.SESSION_COOKIE_NAME) ? true : false;
   },

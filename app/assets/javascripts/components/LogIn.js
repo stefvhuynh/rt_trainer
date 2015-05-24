@@ -1,5 +1,8 @@
 import React from 'react';
+import Marty from 'marty';
 import ApiUtils from 'utils/ApiUtils';
+import UserActions from 'actions/UserActions';
+import UserStore from 'stores/UserStore';
 
 class LogIn extends React.Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class LogIn extends React.Component {
           <input type="password" placeholder="password"
             value={ this.state.existingPassword }
             onChange={ this._generateInputChangeHandler('existingPassword') }/>
-          <button onClick={ this._onLogInFormSubmit.bind(this) }>Submit</button>
+          <button onClick={ this._onLogInFormSubmit() }>Submit</button>
         </form>
 
         <h1>Sign up</h1>
@@ -38,7 +41,7 @@ class LogIn extends React.Component {
           <input type="password" placeholder="password"
             value={ this.state.newPassword }
             onChange={ this._generateInputChangeHandler('newPassword') }/>
-          <button onClick={ this._onSignUpFormSubmit.bind(this) }>Submit</button>
+          <button onClick={ this._onSignUpFormSubmit() }>Submit</button>
         </form>
       </div>
     );
@@ -53,25 +56,29 @@ class LogIn extends React.Component {
     return handleChange;
   }
 
-  _onLogInFormSubmit(event) {
-    event.preventDefault();
-    ApiUtils.getSessionToken(
-      this.state.existingUsername,
-      this.state.existingPassword,
-      response => console.log(response),
-      error => console.log('error: ', error)
-    );
+  _onLogInFormSubmit() {
+    const boundFn = event => {
+      event.preventDefault();
+      UserActions.attemptLogIn(
+        this.state.existingUsername,
+        this.state.existingPassword
+      );
+    };
+
+    return boundFn;
   }
 
   _onSignUpFormSubmit(event) {
-    event.preventDefault();
-    ApiUtils.createUser(
-      this.state.newEmail,
-      this.state.newUsername,
-      this.state.newPassword,
-      response => console.log(response),
-      error => console.log('error: ', error)
-    );
+    const boundFn = event => {
+      event.preventDefault();
+      UserActions.attemptSignUp(
+        this.state.newEmail,
+        this.state.newUsername,
+        this.state.newPassword
+      );
+    };
+
+    return boundFn;
   }
 }
 

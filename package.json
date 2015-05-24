@@ -13,13 +13,13 @@
     "babel-jest": "*"
   },
   "dependencies": {
-    "fluxxor": "*",
+    "marty": "^0.9.16",
     "react": "*",
     "react-tools": "*",
     "react-router": "*",
-    "keymirror": "*",
     "immutable": "*",
-    "jquery": "*"
+    "jquery": "*",
+    "change-case": "*"
   },
   "scripts": {
     "test": "jest",
