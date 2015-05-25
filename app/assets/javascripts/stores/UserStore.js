@@ -5,19 +5,20 @@ class UserStore extends Marty.Store {
   constructor(options) {
     super(options);
 
-    this.id;
+    this.userId;
     this.username;
     this.email;
     this.level;
     this.session;
 
     this.handlers = {
-      logIn: UserConstants.LOG_IN
+      loadUser: [UserConstants.LOG_IN_DONE, UserConstants.GET_USER_DATA_DONE],
+      logOut: UserConstants.LOG_OUT
     };
   }
 
-  logIn(user) {
-    this.id = user.id;
+  loadUser(user) {
+    this.userId = user.id;
     this.username = user.username;
     this.email = user.email;
     this.level = user.level;
@@ -25,21 +26,31 @@ class UserStore extends Marty.Store {
     this.hasChanged();
   }
 
+  hasLoadedUser() {
+    if (this.userId) {
+      return true;
+    }
+
+    return false;
+  }
+
+  logOut() {
+    this.userId = null;
+    this.username = null;
+    this.email = null;
+    this.level = null;
+    this.session = null;
+    this.hasChanged();
+  }
+
   getUser() {
     return {
+      userId: this.userId,
       username: this.username,
       email: this.email,
       level: this.level,
       session: this.session
     };
-  }
-
-  hasLoadedUser() {
-    if (this.id) {
-      return true;
-    }
-
-    return false;
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import Marty from 'marty';
 import AuthUtils from 'utils/AuthUtils';
 import UserStore from 'stores/UserStore';
-import UserActions from 'stores/UserActions';
+import UserActions from 'actions/UserActions';
 import LogIn from 'components/LogIn';
 import Dashboard from 'components/Dashboard';
 
@@ -17,7 +17,7 @@ class RtTrainer extends React.Component {
     if (AuthUtils.isLoggedIn()) {
       root = <Dashboard/>;
       if (!this.props.hasLoadedUser) {
-        UserActions.getUser();
+        UserActions.getUserData();
       }
     } else {
       root = <LogIn/>;

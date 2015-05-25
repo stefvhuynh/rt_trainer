@@ -2,6 +2,17 @@ import $ from 'jquery';
 import ChangeCase from 'change-case';
 
 const ApiUtils = {
+  getSession(sessionToken, successCallback, errorCallback) {
+    this.makeAjaxRequest(
+      '/api/session/',
+      'GET',
+      {},
+      { 'X-Session-Token': sessionToken },
+      successCallback,
+      errorCallback
+    );
+  },
+
   createSession(username, password, successCallback, errorCallback) {
     const credentials = { username: username, password: password };
 
@@ -9,6 +20,7 @@ const ApiUtils = {
       '/api/session/',
       'POST',
       { credentials: credentials },
+      {},
       successCallback,
       errorCallback
     );
@@ -21,18 +33,20 @@ const ApiUtils = {
       '/api/users/',
       'POST',
       { user: user },
+      {},
       successCallback,
       errorCallback
     );
   },
 
-  makeAjaxRequest(url, method, data, successCallback, errorCallback) {
+  makeAjaxRequest(url, method, data, headers, successCallback, errorCallback) {
     const normalizedMethod = ChangeCase.upperCase(method);
 
     $.ajax({
       url: url,
       method: normalizedMethod,
       data: data,
+      headers: headers,
       success: response => {
         if (successCallback) {
           const successObj = this.convertObjToCamelCase(response);

@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 
   def current_user
     session_token = request.headers['X-Session-Token']
-    puts User.find_by(session_token: session_token)
     @current_user ||= User.find_by(session_token: session_token)
   end
 
