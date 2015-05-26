@@ -1,5 +1,5 @@
-import $ from 'jquery';
 import ChangeCase from 'change-case';
+const { $ } = window;
 
 const ApiUtils = {
   getSession(sessionToken, successCallback, errorCallback) {
@@ -55,7 +55,7 @@ const ApiUtils = {
       },
       error: error => {
         if (errorCallback) {
-          const errorObj = this.convertToCamelCase(error.responseJSON);
+          const errorObj = this.convertObjToCamelCase(error.responseJSON);
           errorCallback(errorObj);
         }
       }

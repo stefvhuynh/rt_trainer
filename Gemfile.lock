@@ -41,6 +41,8 @@ GEM
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.2.0.2)
+      sass (~> 3.2)
     builder (3.2.2)
     byebug (4.0.5)
       columnize (= 0.9.0)
@@ -69,6 +71,9 @@ GEM
     jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
+    jquery-rails (3.1.2)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
     json (1.8.2)
     kgio (2.9.3)
     launchy (2.4.3)
@@ -170,12 +175,14 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  bootstrap-sass
   byebug
   capybara
   database_cleaner
   factory_girl_rails
   faker
   jbuilder
+  jquery-rails
   launchy
   pg
   rails (= 4.2.1)

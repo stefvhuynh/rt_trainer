@@ -1,5 +1,4 @@
 import React from 'react';
-import Marty from 'marty';
 import ApiUtils from 'utils/ApiUtils';
 import UserActions from 'actions/UserActions';
 import UserStore from 'stores/UserStore';
@@ -18,7 +17,7 @@ class LogIn extends React.Component {
 
   render() {
     return(
-      <div className="LogIn">
+      <main className="LogIn">
         <h1>Log in</h1>
         <form>
           <input type="text" placeholder="username"
@@ -43,7 +42,7 @@ class LogIn extends React.Component {
             onChange={ this._generateInputChangeHandler('newPassword') }/>
           <button onClick={ this._onSignUpFormSubmit() }>Submit</button>
         </form>
-      </div>
+      </main>
     );
   }
 
@@ -68,7 +67,7 @@ class LogIn extends React.Component {
     return boundFn;
   }
 
-  _onSignUpFormSubmit(event) {
+  _onSignUpFormSubmit() {
     const boundFn = event => {
       event.preventDefault();
       UserActions.attemptSignUp(

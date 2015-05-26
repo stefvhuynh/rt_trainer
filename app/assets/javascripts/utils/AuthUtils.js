@@ -2,6 +2,7 @@ const AuthUtils = {
   SESSION_COOKIE_NAME: 'rt_trainer_session_token',
 
   isLoggedIn() {
+    // TODO: Make a more solid check with the server?
     return this.getSessionCookie() ? true : false;
   },
 
