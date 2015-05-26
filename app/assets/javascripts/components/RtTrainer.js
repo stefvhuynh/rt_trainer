@@ -19,7 +19,14 @@ class RtTrainer extends React.Component {
     let root;
 
     if (AuthUtils.isLoggedIn()) {
-      root = <div><Header/><RouteHandler/></div>;
+      root = (
+        <div>
+          <Header/>
+          <div className="container">
+            <RouteHandler/>
+          </div>
+        </div>
+      );
 
       if (!this.props.hasLoadedUser) {
         UserActions.getUserData();
@@ -30,7 +37,7 @@ class RtTrainer extends React.Component {
     }
 
     return(
-      <div className="RtTrainer">
+      <div className="RtTrainer container-fluid">
         { root }
       </div>
     );

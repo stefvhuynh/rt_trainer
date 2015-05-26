@@ -15,11 +15,13 @@ class Header extends React.Component {
 
   render() {
     return(
-      <Navbar className="Header">
+      <Navbar className="Header" brand="RT Trainer" staticTop>
         <Nav>
           <NavItem href="#/">Dashboard</NavItem>
           <NavItem href="#/trainer">Trainer</NavItem>
-          <NavItem onClick={ this._onLogOutClick() }>Log Out</NavItem>
+        </Nav>
+        <Nav right>
+          <NavItem right onClick={ this._onLogOutClick() }>Log Out</NavItem>
         </Nav>
       </Navbar>
     );
