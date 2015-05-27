@@ -17,8 +17,12 @@ class Header extends React.Component {
     return(
       <Navbar className="Header" brand="RT Trainer" staticTop>
         <Nav>
-          <NavItem href="#/">Dashboard</NavItem>
-          <NavItem href="#/trainer">Trainer</NavItem>
+          <NavItem href={ this.context.router.makeHref('root') }>
+            Dashboard
+          </NavItem>
+          <NavItem href={ this.context.router.makeHref('trainer') }>
+            Trainer
+          </NavItem>
         </Nav>
         <Nav right>
           <NavItem right onClick={ this._onLogOutClick() }>Log Out</NavItem>
@@ -36,6 +40,8 @@ class Header extends React.Component {
     return boundFn;
   }
 }
+
+Header.contextTypes = { router: React.PropTypes.func.isRequired };
 
 export default Marty.createContainer(Header, {
   listenTo: UserStore,
