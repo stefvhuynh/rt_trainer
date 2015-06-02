@@ -45,7 +45,7 @@ const ApiUtils = {
     $.ajax({
       url: url,
       method: normalizedMethod,
-      data: data,
+      data: this.convertObjToSnakeCase(data),
       headers: headers,
       success: response => {
         if (successCallback) {
