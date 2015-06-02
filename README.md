@@ -16,3 +16,8 @@ frontend will send a user's credentials (username and password) to the `session`
 endpoint to request a `session_token`. The frontend then takes this token, sets
 it as a cookie, and uses it in every subsequent request by putting it into a
 header. The backend then uses this header to verify users.
+
+To set up the app, you will need to do a `bundle install` to get the gem
+dependencies and an `npm install` to get the npm packages for the frontend. You
+will also need to run `npm run build` to build `bundle.js`. Migrate the
+database, start the Rails server, and you'll be good to go.
