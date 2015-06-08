@@ -1,9 +1,10 @@
 import Immutable from 'immutable';
+import CanvasUtils from 'utils/CanvasUtils';
 
-class StartButton {
-  constructor(boardSize, context) {
-    this.boardSize = boardSize;
+class ReadyButton {
+  constructor(context, boardSize) {
     this.context = context;
+    this.boardSize = boardSize;
   }
 
   draw() {
@@ -13,13 +14,7 @@ class StartButton {
 
   clickOn(position) {
     if (this._wasClickedOn(position)) {
-      this.context.clearRect(
-        0,
-        0,
-        this.boardSize.get('width'),
-        this.boardSize.get('height')
-      );
-
+      CanvasUtils.clearCanvas(this.context, this.boardSize);
       return true;
     }
 
@@ -87,7 +82,7 @@ class StartButton {
   }
 }
 
-StartButton.BUTTON_WIDTH = 110;
-StartButton.BUTTON_HEIGHT = 50;
+ReadyButton.BUTTON_WIDTH = 110;
+ReadyButton.BUTTON_HEIGHT = 50;
 
-export default StartButton;
+export default ReadyButton;

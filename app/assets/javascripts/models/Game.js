@@ -1,12 +1,12 @@
 import Position from 'models/Position';
 import Target from 'models/Target';
-import StartButton from 'models/StartButton';
+import ReadyButton from 'models/ReadyButton';
 
 class Game {
-  constructor(boardSize, context) {
-    this.boardSize = boardSize;
+  constructor(context, boardSize) {
     this.context = context;
-    this.currentTarget = this.generateStartButton();
+    this.boardSize = boardSize;
+    this.currentTarget = this.generateReadyButton();
     this.inReadyPhase = true;
   }
 
@@ -14,10 +14,15 @@ class Game {
     this.currentTarget.draw();
   }
 
-  clickOnTarget(position) {
+  clickOnBoard(position) {
     if (this.inReadyPhase && this.currentTarget.clickOn(position)) {
       this.currentTarget = this.generateTarget();
       this.currentTarget.randomlyAppear();
+      this.inReadyPhase = false;
+    } else if (this.currentTarget.clickOn(position)) {
+      this.currentTarget = this.generateReadyButton();
+      this.currentTarget.draw();
+      this.inReadyPhase = true;
     }
   }
 
@@ -28,13 +33,16 @@ class Game {
       this.constructor.LARGE_TARGET_SIZE
     );
 
-    return(
-      new Target(position, this.constructor.LARGE_TARGET_SIZE, this.context)
+    return new Target(
+      this.context,
+      position,
+      this.constructor.LARGE_TARGET_SIZE,
+      this.boardSize
     );
   }
 
-  generateStartButton() {
-    return new StartButton(this.boardSize, this.context);
+  generateReadyButton() {
+    return new ReadyButton(this.context, this.boardSize);
   }
 }
 

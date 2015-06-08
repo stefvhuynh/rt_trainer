@@ -1,8 +1,11 @@
+import CanvasUtils from 'utils/CanvasUtils';
+
 class Target {
-  constructor(position, radius, context) {
+  constructor(context, position, radius, boardSize) {
+    this.context = context;
     this.position = position;
     this.radius = radius;
-    this.context = context;
+    this.boardSize = boardSize;
   }
 
   draw() {
@@ -19,9 +22,19 @@ class Target {
     this.context.fill();
   }
 
+  clickOn(position) {
+    if (this._wasClickedOn(position)) {
+      CanvasUtils.clearCanvas(this.context, this.boardSize);
+    }
+  }
+
   randomlyAppear() {
     const randomTime = Math.random() * 5000;
     setTimeout(() => this.draw(), randomTime);
+  }
+
+  _wasClickedOn(mousePosition) {
+    return CanvasUtils.getDistance(mousePosition, this.position) < this.radius;
   }
 }
 

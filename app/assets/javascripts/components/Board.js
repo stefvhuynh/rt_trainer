@@ -12,7 +12,7 @@ class Board extends React.Component {
   componentDidMount() {
     const canvas = this.refs['game-canvas'].getDOMNode();
     const context = canvas.getContext('2d');
-    this.game = new Game(this.boardSize, context);
+    this.game = new Game(context, this.boardSize);
     this.game.run();
   }
 
@@ -31,7 +31,7 @@ class Board extends React.Component {
     const boundFn = event => {
       event.preventDefault();
       const mousePosition = this._getMousePosition(event.pageX, event.pageY);
-      this.game.clickOnTarget(mousePosition);
+      this.game.clickOnBoard(mousePosition);
     };
 
     return boundFn;
