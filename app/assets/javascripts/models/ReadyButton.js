@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import Position from 'models/Position';
 import CanvasUtils from 'utils/CanvasUtils';
+import CanvasConstants from 'constants/CanvasConstants';
 
 class ReadyButton {
   constructor(context, boardSize) {
@@ -24,36 +25,41 @@ class ReadyButton {
 
   _wasClickedOn(position) {
     const area = this._getButtonArea();
-    const isWithinWidth = position.x > area.get('upperLeft').get('x') &&
-      position.x < area.get('bottomRight').get('x');
-    const isWithinHeight = position.y > area.get('upperLeft').get('y') &&
-      position.y < area.get('bottomRight').get('y');
+    const isWithinWidth = position.x > area.get('upperLeft').x &&
+      position.x < area.get('bottomRight').x;
+    const isWithinHeight = position.y > area.get('upperLeft').y &&
+      position.y < area.get('bottomRight').y;
 
     return isWithinWidth && isWithinHeight;
   }
 
   _drawText() {
-    const coordinates = this._getUpperLeftCoordinates();
+    const position = this._getUpperLeftPosition();
 
     this.context.font = '14px sans-serif';
     this.context.fillStyle = '#fff';
     this.context.fillText(
       'Click here when',
-      coordinates.get('x') + 5,
-      coordinates.get('y') + 22
+      position.x + 5,
+      position.y + 22
     );
     this.context.fillText(
       'you\'re ready',
-      coordinates.get('x') + 17,
-      coordinates.get('y') + 38
+      position.x + 17,
+      position.y + 38
     );
   }
 
   _drawBackground() {
+    const buttonSize = Immutable.Map({
+      width: this.constructor.BUTTON_WIDTH,
+      height: this.constructor.BUTTON_HEIGHT
+    });
+
     CanvasUtils.drawRectangle(
+      this.context,
       this._getUpperLeftPosition(),
-      this.constructor.BUTTON_WIDTH,
-      this.constructor.BUTTON_HEIGHT,
+      buttonSize,
       CanvasConstants.GREEN,
       CanvasConstants.DARK_GREEN
     );

@@ -8,6 +8,12 @@ class Position {
     return new Position(randomX, randomY);
   }
 
+  static calculateDistance(firstPosition, secondPosition) {
+    const xDist = (firstPosition.x - secondPosition.x);
+    const yDist = (firstPosition.y - secondPosition.y);
+    return Math.sqrt(xDist ** 2 + yDist ** 2);
+  }
+
   constructor(x, y) {
     this.x = x;
     this.y = y;
