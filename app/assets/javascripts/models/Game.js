@@ -1,12 +1,13 @@
 import Position from 'models/Position';
 import Target from 'models/Target';
 import ReadyButton from 'models/ReadyButton';
+import Message from 'models/Message';
 
 class Game {
   constructor(context, boardSize) {
     this.context = context;
     this.boardSize = boardSize;
-    this.currentTarget = this.generateReadyButton();
+    this.currentTarget = this._generateReadyButton();
     this.inReadyPhase = true;
   }
 
@@ -16,17 +17,17 @@ class Game {
 
   clickOnBoard(position) {
     if (this.inReadyPhase && this.currentTarget.clickOn(position)) {
-      this.currentTarget = this.generateTarget();
+      this.currentTarget = this._generateTarget();
       this.currentTarget.randomlyAppear();
       this.inReadyPhase = false;
     } else if (this.currentTarget.clickOn(position)) {
-      this.currentTarget = this.generateReadyButton();
+      this.currentTarget = this._generateReadyButton();
       this.currentTarget.draw();
       this.inReadyPhase = true;
     }
   }
 
-  generateTarget() {
+  _generateTarget() {
     const position = Position.generateRandomPosition(
       this.boardSize.get('width'),
       this.boardSize.get('height'),
@@ -41,8 +42,12 @@ class Game {
     );
   }
 
-  generateReadyButton() {
+  _generateReadyButton() {
     return new ReadyButton(this.context, this.boardSize);
+  }
+
+  _generateMessage() {
+    return new Message(this.context, 'MISS');
   }
 }
 

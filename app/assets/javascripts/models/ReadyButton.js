@@ -33,6 +33,21 @@ class ReadyButton {
     return isWithinWidth && isWithinHeight;
   }
 
+  _drawBackground() {
+    const buttonSize = Immutable.Map({
+      width: this.constructor.BUTTON_WIDTH,
+      height: this.constructor.BUTTON_HEIGHT
+    });
+
+    CanvasUtils.drawRectangle(
+      this.context,
+      this._getUpperLeftPosition(),
+      buttonSize,
+      CanvasConstants.GREEN,
+      CanvasConstants.DARK_GREEN
+    );
+  }
+
   _drawText() {
     const position = this._getUpperLeftPosition();
 
@@ -47,21 +62,6 @@ class ReadyButton {
       'you\'re ready',
       position.x + 17,
       position.y + 38
-    );
-  }
-
-  _drawBackground() {
-    const buttonSize = Immutable.Map({
-      width: this.constructor.BUTTON_WIDTH,
-      height: this.constructor.BUTTON_HEIGHT
-    });
-
-    CanvasUtils.drawRectangle(
-      this.context,
-      this._getUpperLeftPosition(),
-      buttonSize,
-      CanvasConstants.GREEN,
-      CanvasConstants.DARK_GREEN
     );
   }
 

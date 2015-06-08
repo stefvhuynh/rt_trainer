@@ -1,13 +1,13 @@
 class Message {
-  constructor(text, context) {
-    this.text = text;
+  constructor(context, text) {
     this.context = context;
+    this.text = text;
   }
 
   draw() {
     this.context.font = '30px sans-serif';
     this.context.fillStyle = 'red';
-    this.context.fillText(text, 0, 0);
+    this.context.fillText(this.text, 0, 0);
   }
 }
 

@@ -22,7 +22,10 @@ class Target {
   clickOn(position) {
     if (this._wasClickedOn(position)) {
       CanvasUtils.clearCanvas(this.context, this.boardSize);
+      return true;
     }
+
+    return false;
   }
 
   randomlyAppear() {
