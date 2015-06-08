@@ -1,4 +1,5 @@
 import CanvasUtils from 'utils/CanvasUtils';
+import CanvasConstants from 'constants/CanvasConstants';
 
 class Target {
   constructor(context, position, radius, boardSize) {
@@ -9,17 +10,7 @@ class Target {
   }
 
   draw() {
-    this.context.beginPath();
-    this.context.arc(
-      this.position.x,
-      this.position.y,
-      this.radius,
-      0,
-      2 * Math.PI,
-      false
-    );
-    this.context.fillStyle = '#000';
-    this.context.fill();
+    CanvasUtils.drawCircle(this.position, this.radius, CanvasConstants.BLACK);
   }
 
   clickOn(position) {

@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import Position from 'models/Position';
 import CanvasUtils from 'utils/CanvasUtils';
 
 class ReadyButton {
@@ -49,35 +50,29 @@ class ReadyButton {
   }
 
   _drawBackground() {
-    const coordinates = this._getUpperLeftCoordinates();
-
-    this.context.rect(
-      coordinates.get('x'),
-      coordinates.get('y'),
+    CanvasUtils.drawRectangle(
+      this._getUpperLeftPosition(),
       this.constructor.BUTTON_WIDTH,
-      this.constructor.BUTTON_HEIGHT
+      this.constructor.BUTTON_HEIGHT,
+      CanvasConstants.GREEN,
+      CanvasConstants.DARK_GREEN
     );
-
-    this.context.fillStyle = '#449d44';
-    this.context.fill();
-    this.context.strokeStyle = '#398439';
-    this.context.stroke();
   }
 
-  _getUpperLeftCoordinates() {
+  _getUpperLeftPosition() {
     const halfWidth = this.boardSize.get('width') / 2;
     const halfHeight = this.boardSize.get('height') / 2;
     const x = halfWidth - this.constructor.BUTTON_WIDTH / 2;
     const y = halfHeight - this.constructor.BUTTON_HEIGHT / 2;
-    return Immutable.Map({ x, y });
+    return new Position(x, y);
   }
 
   _getButtonArea() {
-    const upperLeft = this._getUpperLeftCoordinates();
-    const bottomRight = Immutable.Map({
-      x: upperLeft.get('x') + this.constructor.BUTTON_WIDTH,
-      y: upperLeft.get('y') + this.constructor.BUTTON_HEIGHT
-    });
+    const upperLeft = this._getUpperLeftPosition();
+    const bottomRight = new Position(
+      upperLeft.x + this.constructor.BUTTON_WIDTH,
+      upperLeft.y + this.constructor.BUTTON_HEIGHT
+    );
     return Immutable.Map({ upperLeft, bottomRight });
   }
 }
