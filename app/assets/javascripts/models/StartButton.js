@@ -4,8 +4,6 @@ class StartButton {
   constructor(boardSize, context) {
     this.boardSize = boardSize;
     this.context = context;
-    this.buttonSize = Immutable.Map({ width: 110, height: 50 });
-    this.clickedOn = false;
   }
 
   draw() {
@@ -61,8 +59,8 @@ class StartButton {
     this.context.rect(
       coordinates.get('x'),
       coordinates.get('y'),
-      this.buttonSize.get('width'),
-      this.buttonSize.get('height')
+      this.constructor.BUTTON_WIDTH,
+      this.constructor.BUTTON_HEIGHT
     );
 
     this.context.fillStyle = '#449d44';
@@ -74,19 +72,22 @@ class StartButton {
   _getUpperLeftCoordinates() {
     const halfWidth = this.boardSize.get('width') / 2;
     const halfHeight = this.boardSize.get('height') / 2;
-    const x = halfWidth - this.buttonSize.get('width') / 2;
-    const y = halfHeight - this.buttonSize.get('height') / 2;
+    const x = halfWidth - this.constructor.BUTTON_WIDTH / 2;
+    const y = halfHeight - this.constructor.BUTTON_HEIGHT / 2;
     return Immutable.Map({ x, y });
   }
 
   _getButtonArea() {
     const upperLeft = this._getUpperLeftCoordinates();
     const bottomRight = Immutable.Map({
-      x: upperLeft.get('x') + this.buttonSize.get('width'),
-      y: upperLeft.get('y') + this.buttonSize.get('height')
+      x: upperLeft.get('x') + this.constructor.BUTTON_WIDTH,
+      y: upperLeft.get('y') + this.constructor.BUTTON_HEIGHT
     });
     return Immutable.Map({ upperLeft, bottomRight });
   }
 }
+
+StartButton.BUTTON_WIDTH = 110;
+StartButton.BUTTON_HEIGHT = 50;
 
 export default StartButton;

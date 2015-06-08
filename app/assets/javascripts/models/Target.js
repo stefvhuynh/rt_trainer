@@ -15,6 +15,7 @@ class Target {
       2 * Math.PI,
       false
     );
+    this.context.fillStyle = '#000';
     this.context.fill();
   }
 
