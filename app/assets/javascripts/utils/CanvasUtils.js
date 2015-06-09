@@ -17,6 +17,7 @@ const CanvasUtils = {
   },
 
   drawRectangle(context, upperLeftPosition, size, fillStyle, strokeStyle) {
+    context.beginPath();
     context.rect(
       upperLeftPosition.x,
       upperLeftPosition.y,

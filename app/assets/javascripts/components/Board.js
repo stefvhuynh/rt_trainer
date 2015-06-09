@@ -16,7 +16,7 @@ class Board extends React.Component {
       height: this.constructor.BOARD_HEIGHT
     });
 
-    this.game = new Game(context, boardSize);
+    this.game = new Game(context, boardSize, canvas);
     this.game.run();
   }
 
