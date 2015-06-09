@@ -19,17 +19,16 @@ class Target {
   }
 
   clickOn(position) {
-    if (this._wasClickedOn(position)) {
-      CanvasUtils.clearCanvas(this.gameProps);
-      return true;
-    }
-
-    return false;
+    CanvasUtils.clearCanvas(this.gameProps);
+    return this._wasClickedOn(position);
   }
 
-  randomlyAppear() {
+  randomlyAppear(callback) {
     const randomTime = Math.random() * this.constructor.DELAY_LIMIT;
-    setTimeout(() => this.draw(), randomTime);
+    setTimeout(() => {
+      this.draw();
+      callback();
+    }, randomTime);
   }
 
   _wasClickedOn(mousePosition) {

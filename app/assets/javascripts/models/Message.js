@@ -7,7 +7,7 @@ class Message {
   }
 
   draw() {
-    const context = gameProps.get('context');
+    const context = this.gameProps.get('context');
     context.font = '30px sans-serif';
     context.fillStyle = 'red';
     context.fillText(this.text, 100, 100);

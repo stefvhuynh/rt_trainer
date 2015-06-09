@@ -1,32 +1,73 @@
+import Immutable from 'immutable';
 import Position from 'models/Position';
 import Target from 'models/Target';
 import ReadyButton from 'models/ReadyButton';
 import Message from 'models/Message';
+import Timer from 'models/Timer';
 
 class Game {
   constructor(gameProps) {
     this.gameProps = gameProps;
-    this.currentTarget = this._generateReadyButton();
+    this.currentClickTarget = this._generateReadyButton();
     this.inReadyPhase = true;
+    this.timer = new Timer();
+    this.hits = 0;
+    this.misses = 0;
   }
 
   run() {
-    this.currentTarget.draw();
+    this.currentClickTarget.draw();
+  }
+
+  getData() {
+    return Immutable.Map({
+      reactionTimes: this.timer.times,
+      hits: this.hits,
+      misses: this.misses
+    });
   }
 
   clickOnBoard(position) {
-    if (this.inReadyPhase && this.currentTarget.clickOn(position)) {
-      this.currentTarget = this._generateTarget();
-      this.currentTarget.randomlyAppear();
-      this.inReadyPhase = false;
-    } else if (this.currentTarget.clickOn(position)) {
-      this._generateMessage().brieflyDisplay(1000);
-      setTimeout(() => {
-        this.currentTarget = this._generateReadyButton();
-        this.currentTarget.draw();
-        this.inReadyPhase = true;
-      }, 1000);
+    if (this.inReadyPhase) {
+      if (this.currentClickTarget.clickOn(position)) {
+        this._afterReadyButtonClick();
+      }
+    } else {
+      if (this.currentClickTarget.clickOn(position)) {
+        this._afterTargetClick();
+      } else {
+        this._afterTargetMiss();
+      }
     }
+  }
+
+  _afterReadyButtonClick() {
+    this.currentClickTarget = this._generateTarget();
+    this.currentClickTarget.randomlyAppear(() => {
+      this.inReadyPhase = false;
+      this.timer.start()
+    });
+  }
+
+  _afterTargetClick() {
+    this.hits += 1;
+    this.timer.end();
+    this._displayMessageAndReadyButton('HIT');
+  }
+
+  _afterTargetMiss() {
+    this.misses += 1;
+    this._displayMessageAndReadyButton('MISS');
+  }
+
+  _displayMessageAndReadyButton(message) {
+    const timeDelay = 1000; 
+    this._generateMessage(message).brieflyDisplay(timeDelay);
+    setTimeout(() => {
+      this.currentClickTarget = this._generateReadyButton();
+      this.currentClickTarget.draw();
+      this.inReadyPhase = true;
+    }, timeDelay);
   }
 
   _generateTarget() {
@@ -48,8 +89,8 @@ class Game {
     return new ReadyButton(this.gameProps);
   }
 
-  _generateMessage() {
-    return new Message(this.gameProps, 'MISS');
+  _generateMessage(message) {
+    return new Message(this.gameProps, message);
   }
 }
 
