@@ -14,6 +14,16 @@ class Timer {
     this.times.push(endTime - this.startTime);
     return endTime;
   }
+
+  reset() {
+    this.startTime = null;
+    this.times = [];
+  }
+
+  calculateAverageTime() {
+    const sum = this.times.reduce((accumulator, value) => accumulator + value);
+    return sum / this.times.length;
+  }
 }
 
 export default Timer;

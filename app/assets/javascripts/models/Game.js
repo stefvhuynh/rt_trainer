@@ -10,10 +10,12 @@ class Game {
   constructor(gameProps) {
     this.gameProps = gameProps;
     this.currentClickTarget = this._generateReadyButton();
-    this.inReadyPhase = true;
     this.timer = new Timer();
+    this.inReadyPhase = true;
     this.hits = 0;
     this.misses = 0;
+    this.rounds = 5;
+    this.trials = 20;
   }
 
   run() {
@@ -68,6 +70,7 @@ class Game {
       this.currentClickTarget = this._generateReadyButton();
       this.currentClickTarget.draw();
       this.inReadyPhase = true;
+      this.trials -= 1;
     }, timeDelay);
   }
 
