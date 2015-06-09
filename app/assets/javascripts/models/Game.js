@@ -4,6 +4,7 @@ import Target from 'models/Target';
 import ReadyButton from 'models/ReadyButton';
 import Message from 'models/Message';
 import Timer from 'models/Timer';
+import CanvasConstants from 'constants/CanvasConstants';
 
 class Game {
   constructor(gameProps) {
@@ -52,12 +53,12 @@ class Game {
   _afterTargetClick() {
     this.hits += 1;
     this.timer.end();
-    this._displayMessageAndReadyButton('HIT');
+    this._displayMessageAndReadyButton(CanvasConstants.HIT);
   }
 
   _afterTargetMiss() {
     this.misses += 1;
-    this._displayMessageAndReadyButton('MISS');
+    this._displayMessageAndReadyButton(CanvasConstants.MISS);
   }
 
   _displayMessageAndReadyButton(message) {
