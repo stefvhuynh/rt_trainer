@@ -4,9 +4,8 @@ import CanvasUtils from 'utils/CanvasUtils';
 import CanvasConstants from 'constants/CanvasConstants';
 
 class ReadyButton {
-  constructor(context, boardSize) {
-    this.context = context;
-    this.boardSize = boardSize;
+  constructor(gameProps) {
+    this.gameProps = gameProps;
   }
 
   draw() {
@@ -16,7 +15,7 @@ class ReadyButton {
 
   clickOn(position) {
     if (this._wasClickedOn(position)) {
-      CanvasUtils.clearCanvas(this.context, this.boardSize);
+      CanvasUtils.clearCanvas(this.gameProps);
       return true;
     }
 
@@ -40,7 +39,7 @@ class ReadyButton {
     });
 
     CanvasUtils.drawRectangle(
-      this.context,
+      this.gameProps,
       this._getUpperLeftPosition(),
       buttonSize,
       CanvasConstants.GREEN,
@@ -50,15 +49,16 @@ class ReadyButton {
 
   _drawText() {
     const position = this._getUpperLeftPosition();
+    const context = this.gameProps.get('context');
 
-    this.context.font = '14px sans-serif';
-    this.context.fillStyle = '#fff';
-    this.context.fillText(
+    context.font = '14px sans-serif';
+    context.fillStyle = '#fff';
+    context.fillText(
       'Click here when',
       position.x + 5,
       position.y + 22
     );
-    this.context.fillText(
+    context.fillText(
       'you\'re ready',
       position.x + 17,
       position.y + 38
@@ -66,8 +66,9 @@ class ReadyButton {
   }
 
   _getUpperLeftPosition() {
-    const halfWidth = this.boardSize.get('width') / 2;
-    const halfHeight = this.boardSize.get('height') / 2;
+    const boardSize = this.gameProps.get('boardSize');
+    const halfWidth = boardSize.get('width') / 2;
+    const halfHeight = boardSize.get('height') / 2;
     const x = halfWidth - this.constructor.BUTTON_WIDTH / 2;
     const y = halfHeight - this.constructor.BUTTON_HEIGHT / 2;
     return new Position(x, y);

@@ -1,13 +1,21 @@
+import CanvasUtils from 'utils/CanvasUtils';
+
 class Message {
-  constructor(context, text) {
-    this.context = context;
+  constructor(gameProps, text) {
+    this.gameProps = gameProps;
     this.text = text;
   }
 
   draw() {
-    this.context.font = '30px sans-serif';
-    this.context.fillStyle = 'red';
-    this.context.fillText(this.text, 0, 0);
+    const context = gameProps.get('context');
+    context.font = '30px sans-serif';
+    context.fillStyle = 'red';
+    context.fillText(this.text, 100, 100);
+  }
+
+  brieflyDisplay(time) {
+    this.draw();
+    setTimeout(() => CanvasUtils.clearCanvas(this.gameProps), time);
   }
 }
 

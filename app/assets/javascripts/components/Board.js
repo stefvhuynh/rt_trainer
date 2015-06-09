@@ -15,8 +15,9 @@ class Board extends React.Component {
       width: this.constructor.BOARD_WIDTH,
       height: this.constructor.BOARD_HEIGHT
     });
+    const gameAttributes = Immutable.Map({ context, boardSize });
 
-    this.game = new Game(context, boardSize, canvas);
+    this.game = new Game(gameProps);
     this.game.run();
   }
 

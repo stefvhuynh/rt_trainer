@@ -3,16 +3,15 @@ import CanvasUtils from 'utils/CanvasUtils';
 import CanvasConstants from 'constants/CanvasConstants';
 
 class Target {
-  constructor(context, position, radius, boardSize) {
-    this.context = context;
+  constructor(gameProps, position, radius) {
+    this.gameProps = gameProps;
     this.position = position;
     this.radius = radius;
-    this.boardSize = boardSize;
   }
 
   draw() {
     CanvasUtils.drawCircle(
-      this.context,
+      this.gameProps,
       this.position,
       this.radius,
       CanvasConstants.BLACK
@@ -21,7 +20,7 @@ class Target {
 
   clickOn(position) {
     if (this._wasClickedOn(position)) {
-      CanvasUtils.clearCanvas(this.context, this.boardSize);
+      CanvasUtils.clearCanvas(this.gameProps);
       return true;
     }
 

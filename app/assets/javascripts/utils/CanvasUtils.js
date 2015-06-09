@@ -1,9 +1,12 @@
 const CanvasUtils = {
-  clearCanvas(context, boardSize) {
+  clearCanvas(gameProps) {
+    const context = gameProps.get('context');
+    const boardSize = gameProps.get('boardSize');
     context.clearRect(0, 0, boardSize.get('width'), boardSize.get('height'));
   },
 
-  drawCircle(context, centerPosition, radius, fillStyle, strokeStyle) {
+  drawCircle(gameProps, centerPosition, radius, fillStyle, strokeStyle) {
+    const context = gameProps.get('context');
     context.beginPath();
     context.arc(
       centerPosition.x,
@@ -16,7 +19,8 @@ const CanvasUtils = {
     this._fillAndStroke(context, fillStyle, strokeStyle);
   },
 
-  drawRectangle(context, upperLeftPosition, size, fillStyle, strokeStyle) {
+  drawRectangle(gameProps, upperLeftPosition, size, fillStyle, strokeStyle) {
+    const context = gameProps.get('context');
     context.beginPath();
     context.rect(
       upperLeftPosition.x,
